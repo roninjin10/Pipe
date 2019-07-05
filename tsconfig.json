@@ -29,6 +29,6 @@
     ],
     "typeRoots": ["node_modules/@types"]
   },
-  "include": ["src/**/*", "server/**/*"],
+  "include": ["client/**/*", "server/**/*"],
   "exclude": ["node_modules"]
 }

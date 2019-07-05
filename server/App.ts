@@ -1,17 +1,10 @@
-import { Express, Router, RequestHandler } from "express";
+import { AppMiddlewares } from "./AppMiddlewares";
+import { Service } from "./Service";
+import { AppServices } from "./AppServices";
 
-export class PipeApp {
-  constructor(
-    private readonly server: Express,
-    router: Router,
-    middleware: RequestHandler[]
-  ) {
-    this.useMiddleware(router, ...middleware);
+export class App extends Service {
+  constructor(middlewares: AppMiddlewares, services: AppServices) {
+    super("App", middlewares, services);
   }
-
-  public readonly listen = (port: number) =>
-    new Promise(resolve => this.server.listen(port, resolve));
-
-  private useMiddleware = (...middleware: RequestHandler[]) =>
-    middleware.forEach(m => this.server.use(m));
+  public readonly getHandler = () => this.router.getHandler();
 }

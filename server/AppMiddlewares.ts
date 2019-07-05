@@ -5,46 +5,14 @@ import { Strategy } from "passport-local";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { RequestHandler } from "./Service";
+import { VerifyLogin, UserDao } from "./dao/UserDao";
 
-export type VerifyLogin = (
-  username: string,
-  password: string
-) => Promise<boolean>;
-
-class VerifyLoginStrategy extends Strategy {
-  constructor(verifyLogin: VerifyLogin) {
-    super(async (username, password, done) => {
-      try {
-        const user = await verifyLogin(username, password);
-        done(null, user);
-      } catch (e) {
-        done(null, false, e);
-      }
-    });
-  }
-}
-
-class Passport {
-  constructor(
-    strategy: Strategy,
-    private readonly localPassport: PassportStatic = passport
-  ) {
-    this.localPassport.serializeUser((user, done) => done(null, user));
-    this.localPassport.deserializeUser((user, done) => done(null, user));
-    this.localPassport.use(strategy);
-  }
-
-  public readonly initialize = () => this.localPassport.initialize();
-  public readonly session = () => this.localPassport.session();
-}
-
-export class PipeMiddleware extends Array {
-  constructor(isLoginValid: VerifyLogin) {
+export class AppMiddlewares extends Array<RequestHandler> {
+  constructor(user: UserDao) {
     super();
 
-    const strategy = new VerifyLoginStrategy(isLoginValid);
-
-    const localPassport = new Passport(strategy);
+    const localPassport = new Passport(new VerifyLoginStrategy(user.login));
 
     this.push(
       this.cors(),
@@ -83,4 +51,31 @@ export class PipeMiddleware extends Array {
       httpOnly: false
     }
   });
+}
+
+class VerifyLoginStrategy extends Strategy {
+  constructor(verifyLogin: VerifyLogin) {
+    super(async (username, password, done) => {
+      try {
+        const user = await verifyLogin(username, password);
+        done(null, user);
+      } catch (e) {
+        done(null, false, e);
+      }
+    });
+  }
+}
+
+class Passport {
+  constructor(
+    strategy: Strategy,
+    private readonly localPassport: PassportStatic = passport
+  ) {
+    this.localPassport.serializeUser((user, done) => done(null, user));
+    this.localPassport.deserializeUser((user, done) => done(null, user));
+    this.localPassport.use(strategy);
+  }
+
+  public readonly initialize = () => this.localPassport.initialize();
+  public readonly session = () => this.localPassport.session();
 }
