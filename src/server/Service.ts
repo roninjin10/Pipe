@@ -1,11 +1,12 @@
 import { Router } from "./Router";
 import { RequestHandler as ExpressRequestHandler } from "express";
+import { MaybeArray } from "../utils/array.utils";
 
 export type RequestHandler = ExpressRequestHandler;
 
 export interface IService {
   readonly name: string;
-  readonly getHandler: () => RequestHandler | RequestHandler[];
+  readonly getHandler: () => MaybeArray<RequestHandler>;
   readonly start: () => Promise<void>;
 }
 
