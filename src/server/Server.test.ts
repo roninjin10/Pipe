@@ -1,68 +1,47 @@
-import express, { Express } from "express";
-import { IService, Service } from "./Service";
-
-export class Server {
-  constructor(
-    private readonly app: IService,
-    public readonly port: number,
-    private readonly expressServer = express()
-  ) {}
-
-  public readonly start = async () => {
-    await this.app.start();
-
-    this.expressServer.use("/", this.app.getHandler());
-
-    await new Promise(resolve => this.expressServer.listen(this.port, resolve));
-
-    console.log(
-      `${this.app.name} started.  Now listening on port ${this.port}`
-    );
-  };
-}
+import express, { Express } from 'express'
+import { asyncNoop } from '../utils/noop'
+import { Server } from './Server'
 
 class MockService {
-  handler = {};
-  getHandler = jest.fn(() => this.handler);
-  start = jest.fn();
+  handler = asyncNoop
+  getHandler = jest.fn(() => this.handler)
+  start = jest.fn()
 }
 
-describe("Server", () => {
-  let app: MockService;
-  const port = 3000;
-  let expressServer: Express;
-  let server: Server;
-  let listenSpy = jest.fn();
-  let useSpy = jest.fn();
+describe('Server', () => {
+  let app: MockService
+  const port = 3000
+  let expressServer: Express
+  let server: Server
+  let listenSpy = jest.fn()
+  let useSpy = jest.fn()
 
-  beforeEach(() => {
-    listenSpy = jest.fn();
-    useSpy = jest.fn();
+  beforeEach(async () => {
+    listenSpy = jest.fn((port: number, resolve: any) => resolve())
+    useSpy = jest.fn()
 
-    app = new MockService();
-    expressServer = express();
-    server = new Server(app as any, port, expressServer);
+    app = new MockService()
+    expressServer = express()
+    server = new Server(expressServer)
 
-    expressServer.listen = listenSpy;
-  });
+    expressServer.listen = listenSpy as any
+    expressServer.use = useSpy
 
-  it("Should start app", async () => {
-    await server.start();
+    await server.start(app as any, port)
+  })
 
-    expect(app.start.mock.calls.length).toBe(1);
-  });
+  it('Should start app', async () => {
+    expect(app.start.mock.calls.length).toBe(1)
+  })
 
-  it("Should pass app handler to / route of express server", async () => {
-    await server.start();
+  it('Should pass app handler to / route of express server', async () => {
+    const [firstArg, secondArg] = useSpy.mock.calls[0]
 
-    const [firstArg, secondArg] = useSpy.mock.calls[0];
+    expect(firstArg).toBe('/')
+    expect(secondArg).toBe(app.handler)
+  })
 
-    expect(firstArg).toBe("/");
-    expect(secondArg).toBe(app.handler);
-  });
-
-  it("Should listen to a specified port", async () => {
-    await server.start();
-    expect(listenSpy.mock.calls[0][0]).toBe(port);
-  });
-});
+  it('Should listen to a specified port', async () => {
+    expect(listenSpy.mock.calls[0][0]).toBe(port)
+  })
+})

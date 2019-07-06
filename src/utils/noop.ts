@@ -1,2 +1,2 @@
-export const noop = () => {};
-export const asyncNoop = async () => {};
+export const noop = () => {}
+export const asyncNoop = async () => {}

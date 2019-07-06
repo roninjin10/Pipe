@@ -1,10 +1,10 @@
-import { AppMiddlewares } from "./AppMiddlewares";
-import { Service } from "./Service";
-import { AppServices } from "./AppServices";
+import { AppMiddlewares } from './AppMiddlewares'
+import { Service } from './Service'
+import { AppServices } from './AppServices'
 
 export class App extends Service {
   constructor(middlewares: AppMiddlewares, services: AppServices) {
-    super("App", middlewares, services);
+    super('App', middlewares, services)
   }
-  public readonly getHandler = () => this.router.getHandler();
+  public readonly getHandler = () => this.router.getHandler()
 }

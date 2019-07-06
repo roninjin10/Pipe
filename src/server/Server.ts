@@ -1,22 +1,16 @@
-import express from "express";
-import { IService } from "./Service";
+import express from 'express'
+import { IService } from './Service'
 
 export class Server {
-  constructor(
-    private readonly app: IService,
-    public readonly port: number,
-    private readonly expressServer = express()
-  ) {}
+  constructor(private readonly expressServer = express()) {}
 
-  public readonly start = async () => {
-    await this.app.start();
+  public readonly start = async (app: IService, port: number) => {
+    await app.start()
 
-    this.expressServer.use("/", this.app.getHandler());
+    this.expressServer.use('/', app.getHandler())
 
-    await new Promise(resolve => this.expressServer.listen(this.port, resolve));
+    await new Promise(resolve => this.expressServer.listen(port, resolve))
 
-    console.log(
-      `${this.app.name} started.  Now listening on port ${this.port}`
-    );
-  };
+    console.log(`${app.name} started.  Now listening on port ${port}`)
+  }
 }
