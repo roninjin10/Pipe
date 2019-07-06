@@ -4,10 +4,10 @@ import { IService } from './Service'
 export class Server {
   constructor(private readonly expressServer = express()) {}
 
-  public readonly start = async (app: IService, port: number) => {
+  public readonly start = async (app: IService, port: number): Promise<void> => {
     await app.start()
 
-    this.expressServer.use('/', app.getHandler())
+    this.expressServer.use('/', app.getRequestHandler())
 
     await new Promise(resolve => this.expressServer.listen(port, resolve))
 

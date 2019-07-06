@@ -8,17 +8,17 @@ export class Router implements IService {
     this.name = `${name}Router`
   }
 
-  public readonly getHandler = () => this.wrappedRouter
+  public readonly getRequestHandler = () => this.wrappedRouter
   public readonly start = asyncNoop
 
   public readonly connectMiddleware = (...middlewares: RequestHandler[]): void => {
     middlewares.forEach(m => this.wrappedRouter.use(m))
   }
 
-  public readonly connectService = (...services: IService[]) => {
+  public readonly connectService = (...services: IService[]): void => {
     services.forEach(service => {
       const route = `/${service.name}`
-      const handlers = maybeArrayToArray(service.getHandler())
+      const handlers = maybeArrayToArray(service.getRequestHandler())
       this.connectHandlers(route, ...handlers)
     })
   }

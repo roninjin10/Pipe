@@ -6,5 +6,5 @@ export class App extends Service {
   constructor(middlewares: AppMiddlewares, services: AppServices) {
     super('App', middlewares, services)
   }
-  public readonly getHandler = () => this.router.getHandler()
+  public readonly getRequestHandler = () => this.router.getRequestHandler()
 }

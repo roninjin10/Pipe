@@ -6,12 +6,12 @@ export type RequestHandler = ExpressRequestHandler
 
 export interface IService {
   readonly name: string
-  readonly getHandler: () => MaybeArray<RequestHandler>
+  readonly getRequestHandler: () => MaybeArray<RequestHandler>
   readonly start: () => Promise<void>
 }
 
 export abstract class Service implements IService {
-  public abstract readonly getHandler: () => RequestHandler | RequestHandler[]
+  public abstract readonly getRequestHandler: () => RequestHandler | RequestHandler[]
 
   constructor(
     public readonly name: string,

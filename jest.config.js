@@ -9,5 +9,5 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   collectCoverage: true,
   verbose: true,
-  setupFilesAfterEnv: ['<rootDir>/test.setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/scripts/testSetup.ts'],
 }

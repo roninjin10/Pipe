@@ -4,7 +4,7 @@ import { Server } from './Server'
 
 class MockService {
   handler = asyncNoop
-  getHandler = jest.fn(() => this.handler)
+  getRequestHandler = jest.fn(() => this.handler)
   start = jest.fn()
 }
 
