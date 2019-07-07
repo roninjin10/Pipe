@@ -1,4 +1,4 @@
-import { noop } from './noop'
+import { noop } from '@babel/types'
 
 export function throwIf(predicate: false, errorMessage: string): void
 export function throwIf(predicate: true, errorMessage: string): never

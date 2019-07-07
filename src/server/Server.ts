@@ -7,7 +7,7 @@ export class Server {
   public readonly start = async (app: IService, port: number): Promise<void> => {
     await app.start()
 
-    this.expressServer.use('/', app.getRequestHandler())
+    this.expressServer.use(app.getRequestHandler())
 
     await new Promise(resolve => this.expressServer.listen(port, resolve))
 

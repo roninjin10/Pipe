@@ -1,8 +1,8 @@
 import { Service } from './Service'
-import { IRootDao } from './dao/Dao'
+import { Dao } from './dao/Dao'
 
 export class AppServices extends Array<Service> {
-  constructor(readonly dao: IRootDao) {
+  constructor(readonly dao: Dao) {
     super()
   }
 }

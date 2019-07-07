@@ -1,10 +1,11 @@
 import { Router as ExpressRouter, RequestHandler } from 'express'
 import { IService } from './Service'
-import { asyncNoop } from '../utils/noop'
-import { maybeArrayToArray } from '../utils/array.utils'
+import { arrayify } from '../utils/array.utils'
+import { asyncNoop } from '../utils/function.utils'
 
 export class Router implements IService {
-  constructor(readonly name: string, private readonly wrappedRouter = ExpressRouter()) {
+  public readonly name: string
+  constructor(name: string, private readonly wrappedRouter: ExpressRouter = ExpressRouter()) {
     this.name = `${name}Router`
   }
 
@@ -18,7 +19,7 @@ export class Router implements IService {
   public readonly connectService = (...services: IService[]): void => {
     services.forEach(service => {
       const route = `/${service.name}`
-      const handlers = maybeArrayToArray(service.getRequestHandler())
+      const handlers = arrayify(service.getRequestHandler())
       this.connectHandlers(route, ...handlers)
     })
   }
