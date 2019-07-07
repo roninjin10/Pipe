@@ -1,4 +1,4 @@
-import { throwIf } from './error.utils'
+import { throwIf } from './throwIf'
 
 describe('error utils', () => {
   describe('throwIf', () => {

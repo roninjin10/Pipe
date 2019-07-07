@@ -1,4 +1,3 @@
-import { Express } from 'express'
 import { Server } from './Server'
 import { MockService } from './testUtils/MockService'
 

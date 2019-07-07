@@ -1,11 +1,11 @@
 import { Router as ExpressRouter, RequestHandler } from 'express'
 import { IService } from './Service'
-import { arrayify } from '../utils/array.utils'
-import { asyncNoop } from '../utils/function.utils'
+import { arrayify } from '../../utils/arrayify'
+import { asyncNoop } from '../../utils/noop'
 
 export class Router implements IService {
   public readonly name: string
-  constructor(name: string, private readonly wrappedRouter: ExpressRouter = ExpressRouter()) {
+  constructor(name: string, private readonly wrappedRouter: ExpressRouter) {
     this.name = `${name}Router`
   }
 

@@ -1,4 +1,4 @@
-type TrieChildren<T> = { [key in string]: (undefined | Trie<T>) }
+type TrieChildren<T> = { [key in string]: Trie<T> }
 
 export class Trie<T> {
   private readonly _children: TrieChildren<T> = {}

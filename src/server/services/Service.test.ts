@@ -1,7 +1,7 @@
 import { Service, RequestHandler } from './Service'
-import { MockService } from './testUtils/MockService'
-import { MockRouter } from './testUtils/MockRouter'
-import { mockHandlerFactory } from './testUtils/mockHandler'
+import { MockService } from '../testUtils/MockService'
+import { MockRouter } from '../testUtils/MockRouter'
+import { mockHandlerFactory } from '../testUtils/mockHandler'
 
 class DerivedService extends Service {
   getRequestHandler = () => this.router.getRequestHandler()
@@ -22,7 +22,7 @@ describe('Service', () => {
 
       router = new MockRouter()
 
-      service = new DerivedService(name, middleware, services, router)
+      service = new DerivedService(name, router, middleware, services)
 
       await service.start()
     })

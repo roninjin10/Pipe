@@ -2,7 +2,7 @@ import path from 'path'
 import webpack from 'webpack'
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import { IS_PROD } from './src/utils/env.utils'
+import { IS_PROD } from './src/utils/constants'
 
 const getHtmlPlugin = () => {
   const maybeMinify = IS_PROD

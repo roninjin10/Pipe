@@ -1,6 +1,4 @@
-export type NonArray = Exclude<any, Array<any>>
-
-export type MaybeArray<T extends NonArray> = T | Array<T>
+import { NonArray, MaybeArray } from './types'
 
 export const arrayify = <TItemType extends NonArray>(
   maybeArray: MaybeArray<TItemType>

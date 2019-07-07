@@ -19,3 +19,7 @@ export type AsyncReturnType<
   TFunction extends (...args: any[]) => any,
   TReturnType = ReturnType<TFunction>
 > = TReturnType extends Promise<infer TPromiseReturn> ? TPromiseReturn : TReturnType
+
+export type NonArray = Exclude<any, Array<any>>
+
+export type MaybeArray<T extends NonArray> = T | Array<T>

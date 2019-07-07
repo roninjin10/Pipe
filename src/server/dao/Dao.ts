@@ -1,6 +1,6 @@
 interface IUser {}
 
-export type VerifyLogin = (username: string, password: string) => IUser | never
+export type ValidateUser = (username: string, password: string) => IUser | never
 
 class DBEngine {}
 export abstract class Dao {
@@ -16,11 +16,11 @@ export class UserDao extends Dao {
     super(db)
   }
 
-  public readonly login: VerifyLogin = (username, password) => {
+  public readonly validateUser: ValidateUser = (username, password) => {
     return {}
   }
 }
 
-class RootDao extends Dao {
+export class RootDao extends Dao {
   public readonly user = new UserDao(this.db)
 }

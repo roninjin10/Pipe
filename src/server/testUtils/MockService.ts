@@ -1,6 +1,6 @@
-import { IService, Service, RequestHandler } from '../Service'
 import { MockRouter } from './MockRouter'
 import { mockHandlerFactory } from './mockHandler'
+import { IService, Service, RequestHandler } from '../services/Service'
 
 export class MockIService implements IService {
   public readonly name = 'MockService'
@@ -20,7 +20,7 @@ export class MockService extends Service {
     public readonly services: MockService[] = [],
     public readonly router: MockRouter = new MockRouter()
   ) {
-    super(name, middleware, services, router)
+    super(name, router, middleware, services)
   }
 
   public readonly handler = mockHandlerFactory()

@@ -1,4 +1,4 @@
-import { Router } from '../Router'
+import { Router } from '../services/Router'
 import { Router as ExpressRouter } from 'express'
 
 type Mocked<key extends keyof Router> = Router[key] & jest.Mock

@@ -1,6 +1,6 @@
 import { Router } from './Router'
 import { RequestHandler as ExpressRequestHandler } from 'express'
-import { MaybeArray } from '../utils/array.utils'
+import { MaybeArray } from '../../utils/types'
 
 export type RequestHandler = ExpressRequestHandler
 
@@ -15,9 +15,9 @@ export abstract class Service implements IService {
 
   constructor(
     public readonly name: string,
+    protected readonly router: Router,
     protected readonly middleware: RequestHandler[] = [],
-    protected readonly services: Service[] = [],
-    protected readonly router: Router = new Router(name)
+    protected readonly services: Service[] = []
   ) {}
 
   public async start(): Promise<void> {

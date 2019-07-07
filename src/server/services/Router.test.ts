@@ -1,7 +1,7 @@
 import { Router } from './Router'
-import { asyncNoop } from '../utils/function.utils'
-import { mockHandlerFactory } from './testUtils/mockHandler'
-import { MockService } from './testUtils/MockService'
+import { asyncNoop } from '../../utils/noop'
+import { mockHandlerFactory } from '../testUtils/mockHandler'
+import { MockService } from '../testUtils/MockService'
 
 class MockExpressRouter {
   public readonly use = jest.fn()
