@@ -1,12 +1,9 @@
-import { Router } from '../services/Router'
-import { Router as ExpressRouter } from 'express'
+import { RouterRegistry, Router } from '../Router'
 
 type Mocked<key extends keyof Router> = Router[key] & jest.Mock
 
-export class MockRouter extends Router {
-  constructor() {
-    super('MockRouter', ExpressRouter())
-  }
+export class MockRouter {
+  public readonly name = 'MockRouter'
 
   public readonly connectMiddleware: Mocked<'connectMiddleware'> = jest.fn()
 

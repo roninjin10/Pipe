@@ -1,11 +1,14 @@
 import { Router as ExpressRouter, RequestHandler } from 'express'
-import { IService } from './Service'
-import { arrayify } from '../../utils/arrayify'
-import { asyncNoop } from '../../utils/noop'
+import { IService } from './services/Service'
+import { arrayify } from '../utils/arrayify'
+import { asyncNoop } from '../utils/noop'
+import { RegistryFactory } from '../utils/Registry'
 
-export class Router implements IService {
+export interface Router extends RouterService {}
+
+class RouterService implements IService {
   public readonly name: string
-  constructor(name: string, private readonly wrappedRouter: ExpressRouter) {
+  constructor(name: string, private readonly wrappedRouter: ExpressRouter = ExpressRouter()) {
     this.name = `${name}Router`
   }
 
@@ -26,5 +29,11 @@ export class Router implements IService {
 
   public readonly connectHandlers = (route: string, ...handlers: RequestHandler[]): void => {
     this.wrappedRouter.use(route, ...handlers)
+  }
+}
+
+export class RouterRegistry extends RegistryFactory<Router> {
+  constructor(wrappedRouter?: ExpressRouter) {
+    super(name => new RouterService(name, wrappedRouter))
   }
 }

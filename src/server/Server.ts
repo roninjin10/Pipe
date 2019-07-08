@@ -1,8 +1,8 @@
-import { Express } from 'express'
+import express, { Express } from 'express'
 import { IService } from './services/Service'
 
 export class Server {
-  constructor(private readonly expressServer: Express) {}
+  constructor(private readonly expressServer: Express = express()) {}
 
   public readonly start = async (app: IService, port: number): Promise<void> => {
     await app.start()

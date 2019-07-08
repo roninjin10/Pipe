@@ -1,21 +1,30 @@
-import { Router } from './Router'
-import { asyncNoop } from '../../utils/noop'
-import { mockHandlerFactory } from '../testUtils/mockHandler'
-import { MockService } from '../testUtils/MockService'
+import { RouterRegistry } from './Router'
+import { asyncNoop } from '../utils/noop'
+import { MockService } from './testUtils/MockService'
+import { mockHandlerFactory } from './testUtils/mockHandler'
 
 class MockExpressRouter {
   public readonly use = jest.fn()
 }
 
 describe('Router', () => {
-  let router: Router
   let mockExpressRouter: MockExpressRouter
   const name = 'RouterName'
+  let router: ReturnType<RouterRegistry['build']>
 
   const setupRouter = () => {
     mockExpressRouter = new MockExpressRouter()
-    router = new Router(name, mockExpressRouter as any)
+    const routerFactory = new RouterRegistry(mockExpressRouter as any)
+    router = routerFactory.build(name)
   }
+
+  describe('RouterRegistry', () => {
+    it('Should enforce unique names', () => {
+      const routerFactory = new RouterRegistry(mockExpressRouter as any)
+      routerFactory.build(name)
+      expect(() => routerFactory.build(name)).toThrow()
+    })
+  })
 
   describe('Router.prototype.getRequestHandler', () => {
     beforeEach(setupRouter)

@@ -1,4 +1,4 @@
-import { Router } from './Router'
+import { Router } from '../Router'
 import { RequestHandler as ExpressRequestHandler } from 'express'
 import { MaybeArray } from '../../utils/types'
 

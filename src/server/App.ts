@@ -1,5 +1,5 @@
 import { Service, RequestHandler } from './services/Service'
-import { Router } from './services/Router'
+import { Router } from './Router'
 
 export class App extends Service {
   constructor(router: Router, middlewares: RequestHandler[], services: Service[]) {

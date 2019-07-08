@@ -23,3 +23,7 @@ export type AsyncReturnType<
 export type NonArray = Exclude<any, Array<any>>
 
 export type MaybeArray<T extends NonArray> = T | Array<T>
+
+export type ReadonlyRecord<TKey extends string | number | symbol, TValue> = {
+  readonly [key in TKey]: TValue
+}
