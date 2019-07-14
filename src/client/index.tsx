@@ -1,17 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { App } from './App'
+import { ConnectedApp } from './ConnectedApp'
 
-const ROOT_ID = 'root'
+ReactDOM.render(<ConnectedApp />, document.getElementById('root'))
 
-const render = async () => {
-  const rootElement = document.getElementById(ROOT_ID)
-
-  if (!rootElement) {
-    throw new Error(`Unable to find root element with id ${ROOT_ID}`)
-  }
-
-  ReactDOM.render(<App />, rootElement)
+const setupWorker = () => {
+  navigator.serviceWorker.register('serviceWorker.js', {
+    scope: '/',
+  })
 }
-
-render()

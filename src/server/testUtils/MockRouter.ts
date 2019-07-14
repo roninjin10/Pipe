@@ -2,7 +2,7 @@ import { RouterRegistry, Router } from '../Router'
 
 type Mocked<key extends keyof Router> = Router[key] & jest.Mock
 
-export class MockRouter {
+export class MockRouter implements Router {
   public readonly name = 'MockRouter'
 
   public readonly connectMiddleware: Mocked<'connectMiddleware'> = jest.fn()
